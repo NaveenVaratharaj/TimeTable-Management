@@ -20,7 +20,8 @@ body{
 .container_1{
     padding-left:70px;
     background-color: rgb(70, 5, 131);
-    margin: 0;
+    padding-top:20px;
+    padding-bottom: 10px;
 }
 
 .navigation{
@@ -95,6 +96,34 @@ body{
     margin-top: 100px;
 }
 
+/* Login page */
+.login {
+  background-color:rgb(221, 186, 253);
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  padding: 5%;
+  border: 1px solid rgb(10, 82, 0);
+  box-shadow: 10%;
+  display: inline;
+  height: 470px;
+  width: 480px;
+  margin-top: 5%;
+}
+
+#span{
+  padding-top: 6%;
+}
+
+
+#login_heading{
+  text-align: center;
+  margin-top: 50px;
+  font-size: 2.2rem;
+  color: #064635;
+}
+
 @keyframes blink {
 	from, to { 
 		background-color: transparent 
@@ -122,18 +151,18 @@ body{
     background: white;
     animation: ripple 15s infinite;
     box-shadow: 0px 0px 1px 0px #508fb9;
-  }
-  .xxlarge{
+}
+.xxlarge{
     width: 900px;
     height: 1000px;
     left: -500px;
     bottom: -50px;
-  }
+}
   
-  .shade1{
+.shade1{
   opacity: 0.15;
-  }
+}
 
-  .container_2{
+.container_2{
       padding: 5%;
-  }
+}

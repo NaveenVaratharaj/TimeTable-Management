@@ -1,0 +1,26 @@
+<%-include ("partials/header.ejs") %>
+  <head>
+    <title>Signup</title>
+  </head>
+  <h2 id="login_heading">Register as a student ⚡</h2>
+  <div class="login signup">
+    <form method="post"; action="/student_signup" >
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" autocomplete="off" id="username" aria-describedby="emailHelp" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="rollno" class="form-label">Roll number</label>
+        <input type="text" class="form-control"  id="rollno" autocomplete="off" name="rollno" maxlength="8" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" maxlength="100" minlength="8" autocomplete="off" class="form-control" id="password" name="password" required>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-success">Sign-Up</button>
+      <br>
+    </form>  
+  </div>
