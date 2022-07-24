@@ -41,10 +41,6 @@ body{
 .navbar-brand{
     font-size: 2rem;
 }
-/* Section Intro */
-#intro{
-    background-color: blue;
-}
 
 .intro_cont{
     padding-top: 3%;
@@ -94,7 +90,9 @@ body{
 
 #button{
     margin-top: 100px;
+    
 }
+
 
 /* Login page */
 .login {
@@ -110,6 +108,11 @@ body{
   height: 470px;
   width: 480px;
   margin-top: 5%;
+}
+
+/* Know More Button Top */
+#button {
+    margin-top: 5%;
 }
 
 #span{
@@ -165,4 +168,9 @@ body{
 
 .container_2{
       padding: 5%;
+}
+
+#success_name{
+    text-align: center;
+    margin-top: 20px;
 }
