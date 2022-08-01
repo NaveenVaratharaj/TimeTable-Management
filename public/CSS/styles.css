@@ -174,3 +174,13 @@ body{
     text-align: center;
     margin-top: 20px;
 }
+
+.form{
+    margin-top:40px;
+    width: 700px;
+}
+
+#view{
+    margin: auto;
+    width: 50%;
+}

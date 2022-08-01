@@ -1,0 +1,51 @@
+<%- include("partials/header.ejs")  %> 
+
+<form method="post" action="/compose" id="add">
+
+    <div class="container form">
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" name="faculty_id" id="faculty_id"  placeholder="Faculty ID">
+        <label for="faculty_id">Faculty ID</label>
+      </div>
+
+      <select class="form-select form-select-md mb-3" name="dept" aria-label=".form-select-lg example" >
+        <option selected>Select Department</option>
+        <option value="CSE">Computer Science and Engineering</option>
+        <option value="IT">Information Technology</option>
+        <option value="AI&DS">Artificial Intelligence & Data Science</option>
+      </select>
+
+      <select class="form-select form-select-md mb-3" name="lecture" aria-label=".form-select-lg example" >
+        <option selected>Lecture or Assement</option>
+        <option value="Lecture">Lecture</option>
+        <option value="Assessment">Assesment</option>
+      </select>
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="Subject" name="subject" placeholder="Subject" >
+        <label for="Subject">Subject Name</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="Venue" name="venue" placeholder="Venue" >
+        <label for="Venue">Venue</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="date" class="form-control" id="date" name="date" placeholder="date" >
+        <label for="date">Date</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="time" class="form-control" id="duration" name="time" placeholder="date">
+        <label for="duration">Timing</label>
+      </div>
+
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="duration" name="duration" placeholder="date">
+        <label for="duration">Duration in mins</label>
+      </div>
+
+      <button  type="submit" class="btn btn-success w-100 btn-lg mb-3">Add to student Timetable</button>
+    </div>
+    </form>

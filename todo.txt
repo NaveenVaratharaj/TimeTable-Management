@@ -1,0 +1,4 @@
+Display all timetables -- Read 
+Allow staffs to update or delete the listed timetables
+Allow staffs to add timetables for upcoming days
+Create a schema or model to store it

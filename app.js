@@ -1,6 +1,6 @@
 // Including Dotenv
 if(process.env.Node !== 'production'){
-    require("dotenv").config()
+  require("dotenv").config()
 }
 
 // Required Dependencies
@@ -16,10 +16,11 @@ const passport = require('passport')
 require("./auth")
 
 
-const app = express();
+var app = express();
+var lectures = []
 
 function isLoggedIn(req,res,next){
-    req.user ? next() : res.sendStatus(401);
+  req.user ? next() : res.sendStatus(401);
 }
 
 // Middleware
@@ -30,108 +31,133 @@ app.use(morgan("dev"));
 app.use(cookieParser())
 
 app.use(session({
-    key: "user_sid",
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true
-  }))
+  key: "user_sid",
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true
+}))
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 
+
 // Db connection
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true} , () =>{
-    console.log("Database Connected!")
+  console.log("Database Connected!")
 })
 
 //Staff Schema
 const staffSchema = new mongoose.Schema({
-  username: String,
-  password: String
+username: String,
+password: String
 })
 
 //Staff Model
 const Staff = mongoose.model('Staff', staffSchema)
 
 app.get("/auth/google",
-  passport.authenticate('google', {scope: ['email', 'profile'] })
+passport.authenticate('google', {scope: ['email', 'profile'] })
 )
 
 app.get("/google/callback", 
-  passport.authenticate('google', {
-    successRedirect: "/students",
-    failureRedirect: "/auth/failure"
-  })  
+passport.authenticate('google', {
+  successRedirect: "/students",
+  failureRedirect: "/auth/failure"
+})  
 )
 
 app.get("/auth/failure", (req,res)=>{
-    res.send("Something went wrong")
+  res.send("Something went wrong")
 })
 
 app.get("/students", isLoggedIn, (req,res) =>{
-    res.render("students_success", {name: req.user.displayName})
+  res.render("students_success", {name: req.user.displayName}, {lectures:lectures})
 })
 
 app.get('/student_logout', function(req, res, next) {
-    req.logout(function(err) {
-      if (err) { return next(err); }
-      res.redirect('/');
-    });
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
 });
 
 //  Routes for staff
 app.get("/staff_login", (req,res)=>{
-  res.render("staff_login")
+res.render("staff_login")
 })
 
 app.get("/staff_signup", (req,res)=>{
-  res.render("staff_signup.ejs")
+res.render("staff_signup.ejs")
 })
 
 app.post("/staff_signup", (req,res) =>{
-  bcrypt.hash(req.body.password, saltrounds, function(err,hash){
-    const newStaff = new Staff({
-        username: req.body.username,
-        password: hash
-    })
+bcrypt.hash(req.body.password, saltrounds, function(err,hash){
+  const newStaff = new Staff({
+      username: req.body.username,
+      password: hash
+  })
 
-    newStaff.save((err) =>{
-        if(err){
-            console.log(err)
-        }
-        else{
-            res.render("faculty_success", {username: req.body.username});
-        }
-    })      
+  newStaff.save((err) =>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          res.render("faculty_success", {username: req.body.username});
+      }
+  })      
 });
 
 })
 
 app.post("/staff_login", (req,res) =>{
-  let username = req.body.username;
-  const password = req.body.password;
-    Staff.findOne({email:username}, function(err,foundStaff){
-        if(err) {
-            console.log(err);
-        }else{
-            if(foundStaff){
-                bcrypt.compare(password, foundStaff.password, (err,response)=>{
-                    if(response === true){
-                    res.render("faculty_success.ejs",{username: req.body.username});
-                    }
-                })
-            }
-        }
-    });
+let username = req.body.username;
+const password = req.body.password;
+  Staff.findOne({email:username}, function(err,foundStaff){
+      if(err) {
+          console.log(err);
+      }else{
+          if(foundStaff){
+              bcrypt.compare(password, foundStaff.password, (err,response)=>{
+                  if(response === true){
+                  res.render("faculty_success.ejs", {lectures: lectures});
+                  }
+              })
+          }
+      }
+  });
 })
 
-app.get("/", (req,res) =>{
+
+app.post("/compose", (req,res) =>{
+  var lectureDetails = {
+    faculty_id : req.body.faculty_id,
+    dept: req.body.dept,
+    lecture: req.body.lecture,
+    subject: req.body.subject,
+    venue: req.body.venue,
+    date: req.body.date,
+    time: req.body.time,
+    duration: req.body.duration, 
+}
+  lectures.push(lectureDetails)  
+  res.render("faculty_success", {lectures: lectures})
+
+})
+
+app.get("/compose", (req,res) =>{
+  res.render("compose.ejs")
+})
+
+app.get("/faculty_logout", (req,res) =>{
   res.render("home")
 })
 
+app.get("/", (req,res) =>{
+res.render("home")
+})
 
 // Port
 app.listen(process.env.PORT || 5000, ()=>{
-    console.log("App Started at the ", process.env.PORT)
+  console.log("App Started at the ", process.env.PORT)
 })

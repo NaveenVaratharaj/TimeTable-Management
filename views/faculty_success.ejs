@@ -1,1 +1,46 @@
-<h1>Hello world</h1>
+<%- include("partials/header.ejs")  %> 
+
+
+<h2 id="success_name">Logged In as a Faculty👋</h2>
+
+<div class="text-center" style="margin-top:-50px">
+    <a href="#add"type="button" id="button"  class="btn btn-success"><i class="fab fa-google-play"></i>Add TimeTable</a>
+    <a href="view"type="button" id="button"  class="btn btn-success"><i class="fab fa-apple"></i>View TimeTable</a>
+    <a href="/faculty_logout" type="button" id="button"  class="btn btn-success"><i class="fab fa-google-play"></i>Faculty Logout</a>
+</div>
+
+<div class="container">
+</div>
+
+    <div id="view">
+      <table class="table table-hover form table-bordered text-centered">
+        <thead>
+          <tr>
+            <th scope="col">Department</th>
+            <th scope="col">Class Type</th>
+            <th scope="col">Subject</th>
+            <th scope="col">Venue</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Timing</th>
+          </tr>
+        </thead>
+                
+      <% lectures.forEach(function(lecture) {%>
+            <tbody>
+              <tr>
+                <td><%=lecture.dept %></td>
+                <td><%=lecture.lecture %></td>
+                <td><%=lecture.subject %></td>
+                <td><%=lecture.venue %></td>
+                <td><%=lecture.duration %> mins</td>
+                <td><%=lecture.time %></td>
+              </tr>
+            </tbody>
+          
+        <% }) %>
+      </table>
+    </div>
+<!-- <script>
+    alert("Login success!")
+</script> -->
+
