@@ -4,43 +4,70 @@
 <h2 id="success_name">Logged In as a Faculty👋</h2>
 
 <div class="text-center" style="margin-top:-50px">
-    <a href="#add"type="button" id="button"  class="btn btn-success"><i class="fab fa-google-play"></i>Add TimeTable</a>
+    <a type="button" id="button" onclick="showForm()" class="btn btn-success"><i class="fab fa-google-play"></i>Add TimeTable</a>
     <a href="view"type="button" id="button"  class="btn btn-success"><i class="fab fa-apple"></i>View TimeTable</a>
     <a href="/faculty_logout" type="button" id="button"  class="btn btn-success"><i class="fab fa-google-play"></i>Faculty Logout</a>
 </div>
 
 <div class="container">
-</div>
-
-    <div id="view">
-      <table class="table table-hover form table-bordered text-centered">
-        <thead>
-          <tr>
-            <th scope="col">Department</th>
-            <th scope="col">Class Type</th>
-            <th scope="col">Subject</th>
-            <th scope="col">Venue</th>
-            <th scope="col">Duration</th>
-            <th scope="col">Timing</th>
-          </tr>
-        </thead>
-                
-      <% lectures.forEach(function(lecture) {%>
-            <tbody>
-              <tr>
-                <td><%=lecture.dept %></td>
-                <td><%=lecture.lecture %></td>
-                <td><%=lecture.subject %></td>
-                <td><%=lecture.venue %></td>
-                <td><%=lecture.duration %> mins</td>
-                <td><%=lecture.time %></td>
-              </tr>
-            </tbody>
-          
-        <% }) %>
-      </table>
     </div>
-<!-- <script>
-    alert("Login success!")
-</script> -->
+    <form method="post" action="/faculty_success" id="form" style="display: none;">
+
+        <div class="container addForm">
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="faculty_id" id="faculty_id"  placeholder="Faculty ID">
+            <label for="faculty_id">Faculty ID</label>
+          </div>
+    
+          <select class="form-select form-select-md mb-3" name="dept" aria-label=".form-select-lg example" >
+            <option selected>Select Department</option>
+            <option value="CSE">Computer Science and Engineering</option>
+            <option value="IT">Information Technology</option>
+            <option value="AI&DS">Artificial Intelligence & Data Science</option>
+          </select>
+    
+          <select class="form-select form-select-md mb-3" name="lecture" aria-label=".form-select-lg example" >
+            <option selected>Lecture or Assement</option>
+            <option value="Lecture">Lecture</option>
+            <option value="Assessment">Assesment</option>
+          </select>
+    
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="Subject" name="subject" placeholder="Subject" >
+            <label for="Subject">Subject Name</label>
+          </div>
+    
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="Venue" name="venue" placeholder="Venue" >
+            <label for="Venue">Venue</label>
+          </div>
+    
+          <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="date" name="date" placeholder="date" >
+            <label for="date">Date</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="time" class="form-control" id="start_time" name="start_time" placeholder="date">
+            <label for="start_time">Start Time</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="time" class="form-control" id="end_time" name="end_time" placeholder="date">
+            <label for="end_time">End_time</label>
+          </div>
+    
+          <button  type="submit" class="btn btn-success w-100 btn-lg">Add to student Timetable</button>
+        </div>
+        </form>
+    </div>
+
+<script>
+    // alert("Login success!")
+    const form = document.getElementById("form")
+    
+    function showForm(){
+        document.getElementById('form').style.display = "";
+    }
+</script>
 

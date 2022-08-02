@@ -6,34 +6,4 @@
     <a href="/student_logout" class="btn btn-success">Logout</a>
 </div>
 
-<div class="container">
-</div>
-
-    <div id="view">
-      <table class="table table-hover form table-bordered text-centered">
-        <thead>
-          <tr>
-            <th scope="col">Department</th>
-            <th scope="col">Class Type</th>
-            <th scope="col">Subject</th>
-            <th scope="col">Venue</th>
-            <th scope="col">Duration</th>
-            <th scope="col">Timing</th>
-          </tr>
-        </thead>
-                
-      <% lectures.forEach(function(lecture) {%>
-            <tbody>
-              <tr>
-                <td><%=lecture.dept %></td>
-                <td><%=lecture.lecture %></td>
-                <td><%=lecture.subject %></td>
-                <td><%=lecture.venue %></td>
-                <td><%=lecture.duration %> mins</td>
-                <td><%=lecture.time %></td>
-              </tr>
-            </tbody>
-          
-        <% }) %>
-      </table>
     </div>

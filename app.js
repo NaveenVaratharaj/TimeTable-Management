@@ -10,14 +10,11 @@ const bodyParser = require("body-parser")
 const session = require("express-session")
 const bcrypt = require('bcrypt');
 const saltrounds = 7
-const morgan = require('morgan')
-var cookieParser = require("cookie-parser");
 const passport = require('passport')
 require("./auth")
 
 
 var app = express();
-var lectures = []
 
 function isLoggedIn(req,res,next){
   req.user ? next() : res.sendStatus(401);
@@ -27,11 +24,8 @@ function isLoggedIn(req,res,next){
 app.set("view engine", "ejs")
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(morgan("dev"));
-app.use(cookieParser())
 
 app.use(session({
-  key: "user_sid",
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true
@@ -39,8 +33,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-
 
 // Db connection
 mongoose.connect(process.env.DATABASE_URL, {useNewUrlParser: true} , () =>{
@@ -53,8 +45,23 @@ username: String,
 password: String
 })
 
+const lectureSchema = new mongoose.Schema({
+  faculty_id: String,
+  dept: String,
+  lecture: String,
+  subject: String,
+  venue: String,
+  date: Date,
+  start_time: String,
+  end_time: String
+})
+
 //Staff Model
 const Staff = mongoose.model('Staff', staffSchema)
+
+//lecture Model
+const Lecture = mongoose.model('Lecture', lectureSchema)
+
 
 app.get("/auth/google",
 passport.authenticate('google', {scope: ['email', 'profile'] })
@@ -63,11 +70,11 @@ passport.authenticate('google', {scope: ['email', 'profile'] })
 app.get("/google/callback", 
 passport.authenticate('google', {
   successRedirect: "/students",
-  failureRedirect: "/auth/failure"
+  failureRedirect: "/auth/google/failure"
 })  
 )
 
-app.get("/auth/failure", (req,res)=>{
+app.get("/auth/google/failure", (req,res)=>{
   res.send("Something went wrong")
 })
 
@@ -105,7 +112,7 @@ bcrypt.hash(req.body.password, saltrounds, function(err,hash){
       else{
           res.render("faculty_success", {username: req.body.username});
       }
-  })      
+  })  
 });
 
 })
@@ -120,7 +127,7 @@ const password = req.body.password;
           if(foundStaff){
               bcrypt.compare(password, foundStaff.password, (err,response)=>{
                   if(response === true){
-                  res.render("faculty_success.ejs", {lectures: lectures});
+                  res.render("faculty_success.ejs");
                   }
               })
           }
@@ -129,29 +136,29 @@ const password = req.body.password;
 })
 
 
-app.post("/compose", (req,res) =>{
-  var lectureDetails = {
-    faculty_id : req.body.faculty_id,
+
+app.get("/faculty_logout", (req,res) =>{
+  res.render("home")
+})
+
+
+app.post("/faculty_success", (req,res) =>{
+  const newLecture = new Lecture({
+    faculty_id: req.body.faculty_id,
     dept: req.body.dept,
     lecture: req.body.lecture,
     subject: req.body.subject,
     venue: req.body.venue,
     date: req.body.date,
-    time: req.body.time,
-    duration: req.body.duration, 
-}
-  lectures.push(lectureDetails)  
-  res.render("faculty_success", {lectures: lectures})
+    start_time: req.body.start_time,
+    end_time: req.body.start_time
 
-})
+  })
 
-app.get("/compose", (req,res) =>{
-  res.render("compose.ejs")
-})
-
-app.get("/faculty_logout", (req,res) =>{
-  res.render("home")
-})
+  newLecture.save().then (
+    () => {res.render("faculty_view")}
+  )
+});
 
 app.get("/", (req,res) =>{
 res.render("home")
